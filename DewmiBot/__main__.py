@@ -63,35 +63,36 @@ from DewmiBot.modules.helper_funcs.chat_status import is_user_admin
 from DewmiBot.modules.helper_funcs.misc import paginate_modules
 from DewmiBot.modules.helper_funcs.readable_time import get_readable_time
 from DewmiBot.modules.system_stats import bot_sys_stats
-import DewmiBot.modules.sql.users_sql as sql
 
-PM_START_TEXT = f"""
-✨Hello There , I'm szrosebot
-An anime - Themed advanced telegram Group management 
-Bot For help You Manage & Protect Your Groups.
-➼ `{sql.num_users()}` *Users*
-➼ `{sql.num_chats()}`  *Chats*
-♻️Maintained by [supunma <sz/>](https://t.me/szteambots)
+
+PM_START_TEXT = """
+Hey there!👋  My name is IRON MAN✨
+I can manage your  group with lots of useful features with advance AI system.
+
+feel free to add me to your group.
 """
 
 HELP_STRINGS = f"""
-✨Hello There , I'm szrosebot
-An anime - Themed advanced telegram Group management
-Bot For help You Manage & Protect Your Groups.
-**General commands**:
- ➼ /start: Starts me! You've probably already used this.
- ➼ /help: Sends this message; I'll tell you more about myself!
- """.format(
+Main Commands 
+Hey there! My name is  IRON MAN✨
+I'm Powerful BOT to Make Your Groups Secured and Organized & I help admins to manage their groups! Have a look at the following for an idea of some of the things I can help you with.
+
+Main commands available:
+
+ • /donate: information on how to donate!
+ • /settings:
+   • in PM: will send you your settings for all supported modules.
+   • in a group: will redirect you to pm, with all that chat's settings.
+""".format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
 
 DONATE_STRING = """
-➢ Heya,glad to hear you want to donate !
-➢ You can support the project @supunmabot
-➢ Supporting isnt always financial! [Youtube](https://www.youtube.com/channel/UCvYfJcTr8RY72dIapzMqFQA)
-➢ Those who cannot provide monetary support are welcome to help us develop the bot at @szteambots.
+𝑯𝒆𝒚𝒂, 𝒈𝒍𝒂𝒅 𝒕𝒐 𝒉𝒆𝒂𝒓 𝒚𝒐𝒖 𝒘𝒂𝒏𝒕 𝒕𝒐 𝒅𝒐𝒏𝒂𝒕𝒆!
+𝒀𝒐𝒖 𝒄𝒂𝒏 𝒅𝒐𝒏𝒂𝒕𝒆 𝒕𝒐 𝒕𝒉𝒆 𝒐𝒓𝒊𝒈𝒊𝒏𝒂𝒍 𝒘𝒓𝒊𝒕𝒆𝒓'𝒔 𝒐𝒇 𝒕𝒉𝒆 𝑩𝒂𝒔𝒆 𝒄𝒐𝒅𝒆,
+𝑺𝒖𝒑𝒑𝒐𝒓𝒕 𝒕𝒉𝒆𝒎 [Youtube](https://www.youtube.com/channel/UCyn4TDQEBaQE_pT22oJtfLg)
 """
 STICKERS = "CAACAgUAAx0CS6YhoQAC02VhQUW7iB4ci3lcSXHtLVOjFzZlDQACUQMAAvPvEVY76k2QN6u20iAE"   
 
@@ -99,33 +100,57 @@ BUTTONS = (
     [
         [
             InlineKeyboardButton(
-                text="🆘 Help 🆘", callback_data = "helpmenu_"
+                text="Help & commands 🛠 ", callback_data="help_back"
             ),
             InlineKeyboardButton(
-                text="📊 Stats 📊",
-                callback_data="stats_callback",
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="🗣 Updates", url="https://t.me/szteambots"
-            ),
-            InlineKeyboardButton(
-                text="👥 Support",
-                url="https://t.me/slbotzone",
+                text="Repo 📦",
+                url="https://github.com/Dilasnaafk/IRON-MAN-ORG",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="➕ Add Me To Your Group ➕",
-                url=f"t.me/szrosebot?startgroup=true",
+                text="Info & about👨",
+                 callback_data="aboutmanu_howto",
+            ),
+            InlineKeyboardButton(
+                text="Collection😊", callback_data="aboutmanu_"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="Add Me To Your Group🎉",
+                url=f"http://t.me/snt_iron_man_ro_bot?startgroup=true",
             )
         ],
     ]
 )
 
 
+TEXT = """ Hey there! My name is IRON MAN ✨ - A powerful group management bot which can help you to manage your groups effectively as possible With   Advanced AI . 
 
+Click `Main menu` button for more information.
+
+Join my [Updates ](https://t.me/SLninjaTeamchannel) to get information on all the latest updates.  """
+
+MENU = (
+    [
+        [
+            InlineKeyboardButton(
+                text=" Main menu ", callback_data="aboutmanu_back"
+            ),
+            InlineKeyboardButton(
+                text="System Stats🖥",
+                callback_data="stats_callback",
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="Add Me To Your Group🎉",
+                url="http://t.me/snt_iron_man_ro_bot?startgroup=true",
+            )
+        ],
+    ]
+)
    
 IMPORTED = {}
 MIGRATEABLE = []
@@ -238,19 +263,19 @@ def start(update: Update, context: CallbackContext):
 
         else:
             update.effective_message.reply_text(
-                PM_START_TEXT,
-                reply_markup=InlineKeyboardMarkup(BUTTONS),
+                TEXT,
+                reply_markup=InlineKeyboardMarkup(MENU),
                 parse_mode=ParseMode.MARKDOWN,
                disable_web_page_preview=True,
             )
     else:
         update.effective_message.reply_text(
-            "*Promote me as administrator of the group, otherwise I will not be able to work properly*\n Don't forget follow my news channel @szroseupdates.\n\n*New to szrosebot, Touch the below button to for quick setup guide*".format(
+            " I'm online!!😊\n<b>Up since:</b> <code>{}</code>😝".format(
                 uptime
             ),
-            parse_mode=ParseMode.MARKDOWN,
+            parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Quick Setup Guide", callback_data = "helpmenu_")]],
+                [[InlineKeyboardButton(text="Updates", url ="https://t.me/ironmanofficical")]],
             ),
         )
     
@@ -311,7 +336,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "╔═════「   szrosebot   」═════╗\n\nHere Is The Available  Help\n          For The {}   \n\n╚═════「  szrosebot   」═════╝\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ".format(
+                "*｢｢  𝗛𝗲𝗹𝗽  𝗳𝗼𝗿  {}  𝗺𝗼𝗱𝘂𝗹𝗲 」」😊*\𝗻".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -374,7 +399,7 @@ def DewmiBot_about_callback(update, context):
     if query.data == "aboutmanu_":
         query.message.edit_text(
             text=f" @szrosebot🇱🇰 - A bot to manage your groups with additional features!"
-            f"\n\n Here's the basic help regarding use of @szrosebot🇱🇰."
+            f"\n\n Here's the basic help regarding use of @ironmanofficical."
             f"\n\n Almost all modules usage defined in the help menu, checkout by sending `/help`"
             f"\n\n Report error/bugs click the Button ",
             parse_mode=ParseMode.MARKDOWN,
@@ -383,15 +408,15 @@ def DewmiBot_about_callback(update, context):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Bᴜɢ'ꜱ🐞", url="t.me/slbotzone"
+                            text="Bᴜɢ'ꜱ🐞", url="https://t.me/ironmanofficical"
                         ),
                         InlineKeyboardButton(
-                            text="updates💁‍♀️", url="t.me/szteambots"
+                            text="updates💁‍♀️", url="https://t.me/SLninjaTeamchannel"
                         ),
                     ],
                     [
                         InlineKeyboardButton(
-                            text="Donate 🤕", url="http://t.me/szrosebot?start=donate"
+                            text="Donate 🤕", url="http://t.me/snt_iron_man_ro_bot?start=donate"
                         ),
                         InlineKeyboardButton(
                             text="Inline search 🔎", switch_inline_query_current_chat=""
@@ -472,8 +497,12 @@ def DewmiBot_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
+                    InlineKeyboardButton(text="Owener channel ", url="https://t.me/FreeNetSL"),
+                    InlineKeyboardButton(text="Owner group ", url="https://t.me/supunmasl"),
+                 ],
+                 [
                     InlineKeyboardButton(text="Sᴜᴘᴘᴏʀᴛ", url="https://t.me/slbotzone"),
-                    InlineKeyboardButton(text="Uᴘᴅᴀᴛᴇꜱ", url="https://t.me/szteambots"),
+                    InlineKeyboardButton(text="Uᴘᴅᴀᴛᴇꜱ", url="https://t.me/sl_bot_zone"),
                  ],
                  [
                     InlineKeyboardButton(text="Back", callback_data="aboutmanu_howto"),
@@ -533,7 +562,7 @@ def get_help(update, context):
                         [
                             InlineKeyboardButton(
                                 text="Help",
-                                url="t.me/{}?start=ghelp_{}".format(
+                                url="http://t.me/snt_iron_man_ro_bot?start=ghelp_{}".format(
                                     context.bot.username, module
                                 ),
                             )
@@ -549,7 +578,7 @@ def get_help(update, context):
                     [
                         InlineKeyboardButton(
                             text="Click me for help!",
-                            url="https://t.me/szrosebot",
+                            url="http://t.me/snt_iron_man_ro_bot",
                         )
                     ],
                 ]
@@ -815,7 +844,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "╔═════「   ✥✥✥✥✥✥   」═════╗\n            ✥🤭 𝖄𝖊𝖘 𝕴'𝖒 𝖆𝖑𝖎𝖛𝖊 🤭✥\n╚═════「   ✥✥✥✥✥✥   」═════╝")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "𝖄𝖊𝖘 𝕴'𝖒 𝖆𝖑𝖎𝖛𝖊 🤭")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
@@ -881,3 +910,4 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
+
